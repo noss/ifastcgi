@@ -89,7 +89,7 @@ request(S, Type, R, Content) ->
     case Type of
 	begin_request ->
 	    <<Role:16/big, _Flags:7/big, KeepConn:1, _Reserved:40/big>> = Content,
-	    erlang:display({Type, R, {Role, _Flags, KeepConn, _Reserved}}),
+	    %% erlang:display({Type, R, {Role, _Flags, KeepConn, _Reserved}}),
 	    Req = #req{r=R, role=Role},
 	    loop(S#state{keep_connection= (KeepConn=:=1), 
 			 requests=dict:store(R, Req, Reqs)});
@@ -105,7 +105,7 @@ request(S, Type, R, Content) ->
 		    loop(S#state{requests=dict:store(R, Req1, Reqs)})
 	    end;
 	stdin ->
-	    erlang:display({Type, R, Content}),
+	    %% erlang:display({Type, R, Content}),
 	    case dict:find(R, Reqs) of
 		error ->
 		    %% ignore

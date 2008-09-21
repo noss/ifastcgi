@@ -1,3 +1,8 @@
 -module(ifastcgi).
+-compile(export_all).
 
-%% pretty access to the application
+%% API
+
+add_server(Port, Callback, Args) ->
+    gen_server:call(ifastcgi_master, {add_server, Port, Callback, Args}).
+

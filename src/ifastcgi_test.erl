@@ -7,8 +7,8 @@
 -export([request/3]).
 
 request(Args, Params, Input) ->
-    erlang:display({?MODULE, Args, Params, Input}),
-    Data = [ [atom_to_list(Key), $:, Value, $\n] 
+    %% erlang:display({?MODULE, Args, Params, Input}),
+    Data = [ [atom_to_list(Key), ": ", Value, $\n] 
 	     || {Key, Value} <- Params],
     {ok,
      [{'Content-Type', "text/plain"}],

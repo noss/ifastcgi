@@ -6,13 +6,13 @@
 -module(ifastcgi_server).
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_info/2, handle_cast/2, code_change/3, terminate/2]).
--export([start_link/1, kick/1]).
+-export([start_link/4, kick/1]).
 
 -record(server, {master, listener, current, count=0, callback, cargs}).
 
 %% Start 
 
-start_link([Master,Port, CallbackMod, CallbackArg]) ->
+start_link(Master,Port, CallbackMod, CallbackArg) ->
     gen_server:start_link(?MODULE, [Master, Port,CallbackMod,CallbackArg], []).
 
 kick(Serv) ->
@@ -41,7 +41,7 @@ handle_info(_Msg, S) ->
 
 handle_cast({accepted, PeerName}, 
 	    #server{listener=L,callback=CM,cargs=CA}=S) ->
-    erlang:display(PeerName),
+    %%erlang:display(PeerName),
     {ok, Pid} = ifastcgi_connection:start_link(
 		  {socket, L, self(), CM, CA}),
     Count = S#server.count,

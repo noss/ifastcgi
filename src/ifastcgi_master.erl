@@ -11,19 +11,22 @@
 
 -record(master, {}).
 
-%% Start 
+%% API
 
 start_link() ->
     start_link([]).
 
 start_link(Args) ->
-    gen_server:start_link(?MODULE, Args, []).
+    gen_server:start_link({local, ?MODULE}, ?MODULE, Args, []).
 
 %% Callbacks
 
 init(_) ->
     {ok, #master{} }.
 
+handle_call({add_server, Port, Callback, Args}, _From, S) ->
+    S1 = add_server(S, Port, Callback, Args),
+    {reply, ok, S1};
 handle_call(_, _From, S) ->
     {reply, ok, S}.
 
@@ -39,6 +42,15 @@ code_change(_, _, S) ->
 terminate(_, _) ->
     ok.
 
+
+%% Internal functions
+
+add_server(#master{}=Master, Port, Callback, Args) ->
+    {ok, _Pid } = 
+	supervisor:start_child(ifastcgi_server_sup, 
+			       [Port, Callback, Args]),
+    ifastcgi_server:kick(_Pid),
+    Master.
 
 
 
