@@ -1,1 +1,1 @@
-{'*', [{outdir, "../ebin"}, debug_info]}.
+{'*', [{outdir, "../ebin"}, debug_info, warn_missing_spec]}.
