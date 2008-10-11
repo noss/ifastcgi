@@ -52,10 +52,16 @@ init({socket, Socket, Server, CMod, CArgs}) ->
 		 }).
 
 accept(#state{server=Serv, listen=L}=S) ->
-    {ok, Connection} = gen_tcp:accept(L),
-    {ok, Peer} = inet:peername(Connection),
-    gen_server:cast(Serv, {accepted, Peer}),
-    S#state{conn=Connection}.
+    case gen_tcp:accept(L) of
+	{ok, Connection} ->
+	    {ok, Peer} = inet:peername(Connection),
+	    gen_server:cast(Serv, {accepted, Peer}),
+	    S#state{conn=Connection};
+	{error, closed} ->
+	    %% This happens when the accept socket owner dies,
+	    %% that is, our server has died.
+	    exit(normal)
+    end.
 
 %% Main loop 
 

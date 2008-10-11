@@ -3,6 +3,9 @@
 
 %% API
 
-add_server(Port, Callback, Args) ->
-    gen_server:call(ifastcgi_master, {add_server, Port, Callback, Args}).
+add_server(Name, Port, Callback, Args) ->
+    gen_server:call(ifastcgi_master, {add_server, Name, Port, {Callback, Args}}).
+
+del_server(Name) ->
+    gen_server:call(ifastcgi_master, {del_server, Name}).
 

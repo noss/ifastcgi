@@ -4,7 +4,13 @@
 %%% Created : 21 Sep 2008 by Christian <chsu79@gmail.com>
 
 -module(ifastcgi_test).
--export([request/3]).
+-export([run/0, request/3]).
+
+run() ->
+    application:start(sasl),
+    application:start(ifastcgi),
+    ifastcgi:add_server(test, 6464, ?MODULE, foo).
+
 
 request(Args, Params, Input) ->
     %% erlang:display({?MODULE, Args, Params, Input}),

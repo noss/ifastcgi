@@ -20,6 +20,6 @@ start_link() ->
 
 init([]) ->
     AChild = {fastcgi_server,{ifastcgi_server,start_link,[ifastcgi_master]},
-	      permanent,2000,worker,['AModule']},
+	      transient,2000,worker,['AModule']},
     
     {ok,{{simple_one_for_one,0,1}, [AChild]}}.
