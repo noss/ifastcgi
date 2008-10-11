@@ -196,10 +196,11 @@ type(11) -> unknown_type.
 typecode(stdout) -> 6;
 typecode(end_request) -> 3.
 
-proto(0) -> request_complete;
-proto(1) -> cant_mpx_conn;
-proto(2) -> overloaded;
-proto(3) -> unknown_role.
+%% Not needed yet
+%proto(0) -> request_complete;
+%proto(1) -> cant_mpx_conn;
+%proto(2) -> overloaded;
+%proto(3) -> unknown_role.
 
 protocode(request_complete) -> 0;
 protocode(cant_mpx_conn) -> 1;
