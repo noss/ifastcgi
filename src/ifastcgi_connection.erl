@@ -18,7 +18,7 @@
 %% This process will relay all information directly to that process.
 
 -module(ifastcgi_connection).
--export([start/0, start_link/1]).
+-export([start_link/1]).
 -record(state, {server, 
 		listen, conn, 
 		keep_connection=false, 
@@ -32,13 +32,6 @@
 start_link(Args) ->
     Pid = erlang:spawn_link(fun () -> loop(init(Args)) end),
     {ok, Pid}.
-
-start() ->
-    {ok, Sock} = gen_tcp:listen(6464, 
-				[binary, 
-				 {packet, fcgi}, 
-				 {active, false}]),
-    ifastcgi_connection:start_link({socket, Sock}).
 
 %% Process setup
 

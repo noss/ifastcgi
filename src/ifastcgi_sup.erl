@@ -30,5 +30,5 @@ init(_Args) ->
 	      permanent, 2000, worker, [ifastcgi_master]},
     
     %% Restart both on failure
-    {ok,{{one_for_all,0,1}, [ServerSup, Master]}}.
+    {ok,{{one_for_all,5,60}, [ServerSup, Master]}}.
 
